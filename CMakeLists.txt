@@ -4,8 +4,10 @@ set(CMAKE_CXX_STANDARD 17)
 project(nit VERSION 1.0)  # 定义项目名称和版本号
 
 # 将当前目录下的include目录添加到头文件搜索路径
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
+# include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+# include_directories(${CMAKE_SOURCE_DIR})
+SET(BASEPATH "${CMAKE_SOURCE_DIR}")
+include_directories("${BASEPATH}")
 
 if(MSVC)
 add_compile_options("/source-charset:utf-8")
@@ -17,8 +19,6 @@ endif()
 
 # 添加源文件
 set(SOURCES
-    sha1.cpp
-    apis.cpp
     main.cpp
 )
 
