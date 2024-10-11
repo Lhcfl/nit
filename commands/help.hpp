@@ -10,9 +10,6 @@
 namespace NitCommand {
 class Help : public Base {
 public:
-  static const int ARG_NUMBER = 1;
-  static const std::string NAME;
-
   Help() : Base() {}
 
   void exec() const {
@@ -21,6 +18,7 @@ public:
     logger.log("Nit version", NitProjectConfig::VERSION);
     logger.log("");
     logger.log("Commands:");
+    logger.log("  init");
     logger.log("  commit [msg]");
   }
 };

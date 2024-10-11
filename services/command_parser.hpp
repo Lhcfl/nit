@@ -1,6 +1,7 @@
 #include "commands/base.hpp"
 #include "commands/commit.hpp"
 #include "commands/help.hpp"
+#include "commands/init.hpp"
 
 #include "lib/nit_common.hpp"
 #include "models/commit.hpp"
@@ -30,6 +31,10 @@ inline Command createFrom(int argc, char **argv) {
 
   if (commandName == "commit") {
     return Command(new NitCommand::Commit(std::move(commandArgs)));
+  } else if (commandName == "init") {
+    return Command(new NitCommand::Init());
+  } else if (commandName == "help" || commandName == "h") {
+    return Command(new NitCommand::Help());
   } else {
     throw NitCommand::ExecError("Cannot identify command `" + commandName +
                                 "`");

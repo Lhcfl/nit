@@ -1,5 +1,7 @@
 #include "./nit_colors.hpp"
+#include "./nit_types.hpp"
 #include "config/config.h"
+#include <filesystem>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -22,7 +24,9 @@ class NitLogger {
     std::cout << something;
   }
 
-  template <typename T> void output_one(const std::vector<T> &arr) const {
+  template <typename T>
+  typename std::enable_if<NitTypeUtils::has_begin_end<T>::value>::type
+  output_one(const T &arr) const {
     std::cout << "[";
     int isBegin = true;
     for (auto &item : arr) {
@@ -32,6 +36,15 @@ class NitLogger {
       isBegin = false;
     }
     std::cout << "]";
+  }
+
+  void output_one(const std::string &str) const { std::cout << str; }
+  void output_one(const std::filesystem::directory_iterator &di) const {
+    std::cout << "[Files] {\n";
+    for (const auto &item : di) {
+      std::cout << "- " << item.path().filename().string() << "\n";
+    }
+    std::cout << "}";
   }
 
   template <typename T> void output(const T &something) const {

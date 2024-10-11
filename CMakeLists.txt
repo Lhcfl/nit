@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)  # 设置CMake的最低版本要求
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 project(nit VERSION 1.0)  # 定义项目名称和版本号
 
@@ -15,11 +15,14 @@ endif()
 
 if(NOT MSVC)
 set(CMAKE_BUILD_TYPE DEBUG)
+set(CMAKE_EXPORT_COMPILE_COMMANDS, 1)
 endif()
 
 # 添加源文件
 set(SOURCES
     main.cpp
+    apis/apis.cpp
+    apis/sha1.cpp
 )
 
 # 创建可执行文件

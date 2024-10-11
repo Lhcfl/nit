@@ -1,4 +1,5 @@
 {
+  "git.autorefresh": true,
   "editor.formatOnSave": true,
   "clangd.path": "/usr/bin/clangd",
   // Clangd 运行参数(在终端/命令行输入 clangd --help-list-hidden 可查看更多)
