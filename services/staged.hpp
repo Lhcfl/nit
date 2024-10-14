@@ -4,8 +4,8 @@
 #include "services/nit_checker.hpp"
 #include <string>
 
-#ifndef NIT_SERVICE_STAGING
-#define NIT_SERVICE_STAGING
+#ifndef __H_NIT_STAGING_SERVICE
+#define __H_NIT_STAGING_SERVICE
 
 /**
  * we have only one staging area, so we can just use a service to describe it

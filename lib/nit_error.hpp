@@ -1,8 +1,8 @@
 #include <stdexcept>
 #include <string>
 
-#ifndef NIT_ERROR_HPP
-#define NIT_ERROR_HPP
+#ifndef __H_NIT_ERROR_HPP
+#define __H_NIT_ERROR_HPP
 
 class NitError : public std::runtime_error {
 public:

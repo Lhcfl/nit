@@ -4,8 +4,8 @@
 #include "services/staged.hpp"
 #include <string>
 
-#ifndef NIT_COMMAND_ADD
-#define NIT_COMMAND_ADD
+#ifndef __H_NIT_COMMAND_ADD
+#define __H_NIT_COMMAND_ADD
 
 namespace NitCommand {
 class Add : public Base {

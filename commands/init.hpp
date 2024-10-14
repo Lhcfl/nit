@@ -7,8 +7,8 @@
 #include <filesystem>
 #include <string>
 
-#ifndef NIT_COMMAND_INIT
-#define NIT_COMMAND_INIT
+#ifndef __H_NIT_COMMAND_INIT
+#define __H_NIT_COMMAND_INIT
 
 namespace NitCommand {
 class Init : public Base {

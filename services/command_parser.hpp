@@ -10,8 +10,8 @@
 #include <string>
 #include <vector>
 
-#ifndef NIT_COMMAND_PARSER_SERVICE
-#define NIT_COMMAND_PARSER_SERVICE
+#ifndef __H_NIT_COMMAND_PARSER_SERVICE
+#define __H_NIT_COMMAND_PARSER_SERVICE
 
 namespace NitCommandParserService {
 

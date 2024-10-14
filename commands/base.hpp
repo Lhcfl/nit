@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
-#ifndef NIT_COMMAND_BASE
-#define NIT_COMMAND_BASE
+#ifndef __H_NIT_COMMAND_BASE
+#define __H_NIT_COMMAND_BASE
 
 namespace NitCommand {
 using CommandArgs = std::vector<std::string>;

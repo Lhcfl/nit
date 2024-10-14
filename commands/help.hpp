@@ -4,8 +4,8 @@
 #include "models/commit.hpp"
 #include <string>
 
-#ifndef NIT_COMMAND_HELP
-#define NIT_COMMAND_HELP
+#ifndef __H_NIT_COMMAND_HELP
+#define __H_NIT_COMMAND_HELP
 
 namespace NitCommand {
 class Help : public Base {

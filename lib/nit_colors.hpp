@@ -1,7 +1,7 @@
 #include <string>
 
-#ifndef NIT_COLORS_HPP
-#define NIT_COLORS_HPP
+#ifndef __H_NIT_COLORS_HPP
+#define __H_NIT_COLORS_HPP
 namespace NitColor {
 
 static constexpr std::string SIGN_NORMAL = "\x1b[0m";

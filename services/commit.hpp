@@ -1,8 +1,8 @@
 #include "lib/nit_common.hpp"
 #include "models/commit.hpp"
 
-#ifndef NIT_COMMIT_SERVICE
-#define NIT_COMMIT_SERVICE
+#ifndef __H_NIT_COMMIT_SERVICE
+#define __H_NIT_COMMIT_SERVICE
 
 namespace NitCommitService {
 

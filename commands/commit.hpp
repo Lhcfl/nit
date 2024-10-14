@@ -3,8 +3,8 @@
 #include "models/commit.hpp"
 #include <string>
 
-#ifndef NIT_COMMAND_COMMIT
-#define NIT_COMMAND_COMMIT
+#ifndef __H_NIT_COMMAND_COMMIT
+#define __H_NIT_COMMAND_COMMIT
 
 namespace NitCommand {
 class Commit : public Base {

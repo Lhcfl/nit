@@ -2,8 +2,8 @@
 #include "lib/nit_fs.hpp"
 #include <string>
 
-#ifndef NIT_CHECKER_SERVICE
-#define NIT_CHECKER_SERVICE
+#ifndef __H_NIT_CHECKER_SERVICE
+#define __H_NIT_CHECKER_SERVICE
 
 #define _def_ensure_with(function, nit_message)                                \
   inline void ensureHas##function() {                                          \

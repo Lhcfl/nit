@@ -2,8 +2,8 @@
 #include "lib/nit_common.hpp"
 #include <string>
 
-#ifndef NIT_MODEL_COMMIT
-#define NIT_MODEL_COMMIT
+#ifndef __H_NIT_MODEL_COMMIT
+#define __H_NIT_MODEL_COMMIT
 
 class NitCommitModel {
 public:
