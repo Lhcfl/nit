@@ -1,5 +1,4 @@
 #include "lib/nit_common.hpp"
-#include "lib/nit_fs.hpp"
 #include <string>
 
 #ifndef __H_NIT_CHECKER_SERVICE

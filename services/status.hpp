@@ -1,5 +1,4 @@
 #include "lib/nit_common.hpp"
-#include "lib/nit_fs.hpp"
 #include "models/status.hpp"
 #include "services/nit_checker.hpp"
 #include "services/staged.hpp"

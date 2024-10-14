@@ -1,5 +1,4 @@
 #include "lib/nit_common.hpp"
-#include <ranges>
 #include <string>
 #include <vector>
 

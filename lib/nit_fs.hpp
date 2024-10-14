@@ -1,13 +1,13 @@
 #include "./nit_error.hpp"
 #include "./utils.hpp"
 #include "apis/apis.h"
+#include <filesystem>
 #include <fstream>
 #include <string>
 #include <vector>
 
-#pragma once
-
-#include <filesystem>
+#ifndef LINCA_NIT_FS
+#define LINCA_NIT_FS
 namespace NitFs {
 
 class NitFsError : public NitError {
@@ -83,3 +83,5 @@ inline std::string readFromFile(const std::string &filePath) {
 }
 
 } // namespace NitFs
+
+#endif

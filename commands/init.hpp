@@ -1,7 +1,6 @@
 #include "apis/apis.h"
 #include "commands/base.hpp"
 #include "lib/nit_common.hpp"
-#include "lib/nit_fs.hpp"
 #include "models/commit.hpp"
 #include "services/nit_checker.hpp"
 #include <filesystem>

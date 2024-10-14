@@ -1,6 +1,5 @@
 #include "apis/apis.h"
 #include "lib/nit_common.hpp"
-#include "lib/nit_fs.hpp"
 #include <string>
 
 #ifndef __H_NIT_MODEL_BLOB
@@ -21,7 +20,7 @@ public:
       : data(data), hash(hash) {
     auto checkHash = UsefulApi::hash(data);
     if (hash != checkHash) {
-      throw NitError("Hash check failed!\n"
+      throw NitError("Blob: Hash check failed!\n"
                      "  provided hash: " +
                      hash +
                      "\n"

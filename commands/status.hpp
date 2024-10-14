@@ -1,6 +1,5 @@
 #include "commands/base.hpp"
 #include "lib/nit_common.hpp"
-#include "lib/nit_fs.hpp"
 #include "services/staged.hpp"
 #include "services/status.hpp"
 #include <string>

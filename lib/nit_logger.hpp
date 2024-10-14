@@ -7,7 +7,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
-#include <vector>
+// #include <vector>
 
 #ifndef LINCA_NIT_LOGGER
 #define LINCA_NIT_LOGGER
