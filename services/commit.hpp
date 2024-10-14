@@ -6,7 +6,10 @@
 
 namespace NitCommitService {
 
-inline NitCommitModel genCommit() { return NitCommitModel(); }
+inline NitCommitModel commit() {
+  NitCommitModel res;
+  return res;
+}
 
 } // namespace NitCommitService
 
