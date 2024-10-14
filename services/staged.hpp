@@ -17,7 +17,7 @@ namespace NitStagingService {
 
 inline NitLogger logger = NitLogger("staging");
 constexpr std::string STAGE_PATH = ".nit/staged/";
-const std::string STAGE_PATH_ABSOLUTE = NitFs::dirRelative(".nit/staged/");
+const std::string STAGE_PATH_ABSOLUTE = NitFs::dirAbsolute(".nit/staged/");
 
 inline std::vector<std::string> listAll() {
   NitCheckerService::ensureHasNitRepo();

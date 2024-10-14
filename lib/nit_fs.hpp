@@ -39,7 +39,7 @@ bool inline existsFile(const std::string &filename) {
   return std::filesystem::exists(filename);
 }
 
-inline std::string dirRelative(const std::string &s) {
+inline std::string dirAbsolute(const std::string &s) {
   return UsefulApi::cwd() + "/" + s;
 }
 inline std::string fileIn(const std::string &path,

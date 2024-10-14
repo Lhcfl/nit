@@ -29,6 +29,7 @@ public:
     std::filesystem::create_directory(".nit");
     std::filesystem::create_directory(".nit/staged");
     std::filesystem::create_directory(".nit/commits");
+    std::filesystem::create_directory(".nit/blobs");
 
     logger.success("Successfully Initialized .nit in", UsefulApi::cwd());
   }
