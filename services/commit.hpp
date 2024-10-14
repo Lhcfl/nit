@@ -6,6 +6,11 @@
 
 namespace NitCommitService {
 
+inline void logCommit(const NitCommitModel &c) {
+  NitLogger logger("", "");
+  logger.log("[", std::string_view(c.hash).substr(0, 8), "] ", c.message);
+}
+
 inline NitCommitModel commit() {
   NitCommitModel res;
   return res;

@@ -12,12 +12,13 @@ class NitCommitModel {
     auto parsed = nlohmann::json::parse(jsonStr);
 
     next = parsed["next"].template get<std::string>();
-    next = parsed["pre"].template get<std::string>();
-    next = parsed["message"].template get<std::string>();
+    pre = parsed["pre"].template get<std::string>();
+    message = parsed["message"].template get<std::string>();
     files = parsed["files"].template get<Tree>();
   };
 
   std::string serialize() {
+    // logger.debug("Serializing...");
     nlohmann::json j;
     j["next"] = next;
     j["pre"] = pre;
@@ -28,7 +29,8 @@ class NitCommitModel {
   }
 
 public:
-  static constexpr std::string COMMIT_PATH = ".nit/blobs";
+  static constexpr std::string COMMIT_PATH = ".nit/commits";
+  static constexpr std::string NULL_COMMIT = "#null";
   static const std::string COMMIT_PATH_ABSOLUTE;
   static const NitLogger logger;
 
@@ -42,10 +44,17 @@ public:
   /** files[filename] = blobhash */
   Tree files;
 
+  NitCommitModel(const std::string &msg = "")
+      : next(NULL_COMMIT), pre(NULL_COMMIT), message(msg) {}
+
   static NitCommitModel loadFrom(const std::string &hash) {
+    // logger.debug("Loading commit", hash);
+
     std::string data =
         NitFs::readFromFile(NitFs::fileIn(COMMIT_PATH_ABSOLUTE, hash));
     auto checkHash = UsefulApi::hash(data);
+
+    // logger.debug(data);
 
     if (hash != checkHash) {
       throw NitError("Commit: Hash check failed!\n"
@@ -57,6 +66,7 @@ public:
     }
 
     NitCommitModel res;
+    res.hash = hash;
     res.deserializeFrom(data);
 
     return res;
@@ -68,7 +78,9 @@ public:
     auto serialized = serialize();
     hash = UsefulApi::hash(serialized);
 
-    NitFs::writeToFile(hash, serialized);
+    logger.debug("hash generated: ", hash);
+
+    NitFs::writeToFile(NitFs::fileIn(COMMIT_PATH_ABSOLUTE, hash), serialized);
   }
 };
 
