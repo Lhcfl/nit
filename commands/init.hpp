@@ -3,6 +3,7 @@
 #include "lib/nit_common.hpp"
 #include "lib/nit_fs.hpp"
 #include "models/commit.hpp"
+#include "services/nit_checker.hpp"
 #include <filesystem>
 #include <string>
 
@@ -20,7 +21,7 @@ public:
     logger.debug("Initializing a new nit repo at", UsefulApi::cwd());
     logger.debug("Files in cwd", NitFs::readDir());
 
-    if (NitFs::hasFile(".nit")) {
+    if (NitCheckerService::hasNitRepo()) {
       throw ExecError("A Nit version-control system already exists in the "
                       "current directory.");
     }

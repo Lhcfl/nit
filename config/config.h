@@ -4,7 +4,7 @@
 #include <string>
 namespace NitProjectConfig {
 
-static const std::string VERSION = "0.0.1";
+static constexpr std::string VERSION = "0.0.1";
 
 enum class NIT_LOG_LEVELS {
   DEBUG = 0,
