@@ -11,4 +11,22 @@ public:
   ~NitError() throw() {}
 };
 
+class NitNotImplementedError : public std::runtime_error {
+public:
+  enum class NotImplementId {
+    ADD_A_DIRECTORY = 1,
+  };
+
+private:
+  NotImplementId id;
+
+public:
+  NitNotImplementedError(NotImplementId id,
+                         const std::string &message = "UnknownError")
+      : std::runtime_error(message), id(id) {}
+  ~NitNotImplementedError() throw() {}
+
+  NotImplementId getId() { return id; }
+};
+
 #endif

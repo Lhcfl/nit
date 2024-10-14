@@ -13,9 +13,13 @@ public:
   Add(CommandArgs &&args) : Base(std::move(args)) {}
 
   void exec() const {
+    NitLogger logger("nit add");
+
     if (args.size() == 0) {
       throw ExecError("You must at least add one file");
     }
+
+    logger.debug("args is", args);
 
     if (args | Utils::Some<std::string>([](const std::string &fn) {
           return fn == "*" || fn == ".";
@@ -24,7 +28,17 @@ public:
     }
 
     for (const auto &fileName : args) {
-      NitStagingService::stageOne(fileName);
+      try {
+        NitStagingService::stageOne(fileName);
+      } catch (NitNotImplementedError e) {
+        if (e.getId() ==
+            NitNotImplementedError::NotImplementId::ADD_A_DIRECTORY) {
+          logger.warn("Adding a directory is not supported. Ingoring",
+                      fileName);
+        } else {
+          throw e;
+        }
+      }
     }
   }
 };

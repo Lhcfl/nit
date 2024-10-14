@@ -1,5 +1,10 @@
 #include "./nit_types.hpp"
+#include <algorithm>
+#include <cctype>
 #include <functional>
+#include <locale>
+#include <string>
+#include <string_view>
 // #include <vector>
 
 #ifndef LINCA_NIT_UTILS
@@ -22,6 +27,15 @@ public:
     return false;
   }
 };
-} // namespace Utils
 
+inline bool isSpace(const char c) { return c == ' ' || c == '\n' || c == '\t'; }
+
+inline std::string_view rtrim(const std::string &s) {
+  auto it = s.rbegin();
+  while (it != s.rend() && isSpace(*it))
+    it++;
+  return std::string_view(s.begin(), it.base());
+}
+
+} // namespace Utils
 #endif

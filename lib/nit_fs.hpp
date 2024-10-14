@@ -3,6 +3,7 @@
 #include "apis/apis.h"
 #include <fstream>
 #include <string>
+#include <vector>
 
 #pragma once
 
@@ -14,8 +15,15 @@ public:
   NitFsError(const std::string &message) : NitError(message) {}
 };
 
+using UsefulApi::cwd;
+
 auto inline readDir(const std::string &dir = UsefulApi::cwd()) {
   return std::filesystem::directory_iterator(UsefulApi::cwd());
+}
+
+inline std::vector<std::string>
+listFiles(const std::string &dir = UsefulApi::cwd()) {
+  return UsefulApi::listFilesInDirectory(dir);
 }
 
 bool inline hasFile(const std::string &filename,
@@ -27,8 +35,20 @@ bool inline hasFile(const std::string &filename,
              });
 }
 
+bool inline existsFile(const std::string &filename) {
+  return std::filesystem::exists(filename);
+}
+
 inline std::string dirRelative(const std::string &s) {
   return UsefulApi::cwd() + "/" + s;
+}
+inline std::string fileIn(const std::string &path,
+                          const std::string &filename) {
+  if (path.ends_with("/")) {
+    return path + filename;
+  } else {
+    return path + "/" + filename;
+  }
 }
 
 /**

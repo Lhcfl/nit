@@ -3,6 +3,9 @@
 #include "config/config.h"
 #include <filesystem>
 #include <iostream>
+#include <ostream>
+#include <sstream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -12,6 +15,11 @@
 using NitProjectConfig::NIT_LOG_LEVELS;
 
 class NitLogger {
+  class NoEndLineClass {};
+
+  std::stringstream _sStream;
+  std::ostream &oStream;
+  bool isSStream = false;
 
   std::string header, spliter;
   NIT_LOG_LEVELS log_level = NIT_LOG_LEVELS::DEBUG;
@@ -20,48 +28,64 @@ class NitLogger {
     return log_level > level || NitProjectConfig::NIT_LOG_LEVEL > level;
   }
 
-  template <typename T> void output_one(const T &something) const {
-    std::cout << something;
+  template <typename T>
+  typename std::enable_if<!NitTypeUtils::has_begin_end<T>::value>::type
+  output_one(const T &something) const {
+    oStream << something;
   }
 
   template <typename T>
   typename std::enable_if<NitTypeUtils::has_begin_end<T>::value>::type
   output_one(const T &arr) const {
-    std::cout << "[";
+    oStream << "[";
     int isBegin = true;
     for (auto &item : arr) {
       if (!isBegin)
-        std::cout << ", ";
+        oStream << ", ";
       output_one(item);
       isBegin = false;
     }
-    std::cout << "]";
+    oStream << "]";
   }
 
-  void output_one(const std::string &str) const { std::cout << str; }
+  void output_one(const std::string &str) const { oStream << str; }
+  void output_one(const std::string_view &str) const { oStream << str; }
   void output_one(const std::filesystem::directory_iterator &di) const {
-    std::cout << "[Files] {\n";
+    oStream << "[Files] {\n";
     for (const auto &item : di) {
-      std::cout << "- " << item.path().filename().string() << "\n";
+      oStream << "- " << item.path().filename().string() << "\n";
     }
-    std::cout << "}";
+    oStream << "}";
   }
 
+  void output(const NoEndLineClass &something) const {
+    // do nothing
+  }
   template <typename T> void output(const T &something) const {
     output_one(something);
-    std::cout << std::endl;
+    oStream << std::endl;
   }
   template <typename T, typename... Rargs>
   void output(const T &something, const Rargs &...other) const {
     output_one(something);
-    std::cout << spliter;
+    oStream << spliter;
     output(other...);
   }
 
 public:
+  static const NoEndLineClass NO_ENDL;
   explicit NitLogger(const std::string &header = "",
-                     const std::string &spliter = " ")
-      : spliter(spliter) {
+                     const std::string &spliter = " ",
+                     std::ostream &outputer = std::cout)
+      : spliter(spliter), oStream(outputer) {
+    if (header.size() > 0) {
+      this->header = "[" + header + "] ";
+    }
+  }
+  explicit NitLogger(const std::string &header, const std::string &spliter,
+                     const std::string &init_of_stringstream)
+      : spliter(spliter), _sStream(init_of_stringstream), oStream(_sStream),
+        isSStream(true) {
     if (header.size() > 0) {
       this->header = "[" + header + "] ";
     }
@@ -78,38 +102,50 @@ public:
   void disable() { this->log_level = NIT_LOG_LEVELS::DISABLED; }
   void enable() { this->log_level = NIT_LOG_LEVELS::DEBUG; }
 
+  /**
+   * get stringstream
+   */
+  std::stringstream &getStream() {
+    if (!isSStream) {
+      throw std::invalid_argument(
+          "You should only get a stream of a stringstream NitLogger");
+    }
+    return _sStream;
+  }
+
+  void newLine() { oStream << std::endl; }
   template <typename... Args> void log(Args... args) const {
-    std::cout << header;
+    oStream << header;
     output(args...);
   }
   template <typename... Args> void debug(Args... args) const {
     if (level_unsatisified(NIT_LOG_LEVELS::DEBUG))
       return;
-    std::cout << NitColor::white("[DEBUG] ") << header;
+    oStream << NitColor::white("[DEBUG] ") << header;
     output(args...);
   }
   template <typename... Args> void info(Args... args) const {
     if (level_unsatisified(NIT_LOG_LEVELS::INFO))
       return;
-    std::cout << "[INFO] " << header;
+    oStream << "[INFO] " << header;
     output(args...);
   }
   template <typename... Args> void warn(Args... args) const {
     if (level_unsatisified(NIT_LOG_LEVELS::WARN))
       return;
-    std::cout << NitColor::yellow("[WARN] ") << header;
+    oStream << NitColor::yellow("[WARN] ") << header;
     output(args...);
   }
   template <typename... Args> void error(Args... args) const {
     if (level_unsatisified(NIT_LOG_LEVELS::ERROR))
       return;
-    std::cout << NitColor::red("[ERROR] ") << header;
+    oStream << NitColor::red("[ERROR] ") << header;
     output(args...);
   }
   template <typename... Args> void success(Args... args) const {
     if (level_unsatisified(NIT_LOG_LEVELS::ERROR))
       return;
-    std::cout << NitColor::green("[SUCCESS] ") << header;
+    oStream << NitColor::green("[SUCCESS] ") << header;
     output(args...);
   }
 };

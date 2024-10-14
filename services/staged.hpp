@@ -2,7 +2,10 @@
 #include "lib/nit_common.hpp"
 #include "lib/nit_fs.hpp"
 #include "services/nit_checker.hpp"
+#include <filesystem>
+#include <ranges>
 #include <string>
+#include <vector>
 
 #ifndef __H_NIT_STAGING_SERVICE
 #define __H_NIT_STAGING_SERVICE
@@ -12,25 +15,37 @@
  */
 namespace NitStagingService {
 
-const inline NitLogger logger = NitLogger("staging");
+inline NitLogger logger = NitLogger("staging");
 constexpr std::string STAGE_PATH = ".nit/staged/";
+const std::string STAGE_PATH_ABSOLUTE = NitFs::dirRelative(".nit/staged/");
+
+inline std::vector<std::string> listAll() {
+  NitCheckerService::ensureHasNitRepo();
+  return NitFs::listFiles(STAGE_PATH_ABSOLUTE);
+}
 
 inline void stageOne(const std::string &filePath) {
+  logger.disable();
   logger.debug("Staging", filePath, "to", UsefulApi::cwd());
   NitCheckerService::ensureHasNitRepo();
   NitCheckerService::ensureHasFile(filePath);
 
-  NitFs::writeToFile(NitFs::dirRelative(STAGE_PATH) + filePath,
+  if (std::filesystem::is_directory(filePath)) {
+    throw NitNotImplementedError(
+        NitNotImplementedError::NotImplementId::ADD_A_DIRECTORY,
+        "Staging a dir is not Implemented");
+  }
+
+  NitFs::writeToFile(NitFs::fileIn(STAGE_PATH_ABSOLUTE, filePath),
                      NitFs::readFromFile(filePath));
 }
 
 inline void stageAll(const std::string &directoryPath) {
-  logger.debug("Saving data to", directoryPath);
+  logger.debug("Staging", directoryPath);
   NitCheckerService::ensureHasNitRepo();
 
-  auto shouldStageFiles = UsefulApi::listFilesInDirectory(directoryPath);
-  for (const auto &filename : shouldStageFiles) {
-    NitFs::writeToFile(NitFs::dirRelative(STAGE_PATH) + filename,
+  for (const auto &filename : NitFs::listFiles(directoryPath)) {
+    NitFs::writeToFile(NitFs::fileIn(STAGE_PATH_ABSOLUTE, filename),
                        NitFs::readFromFile(filename));
   }
 }

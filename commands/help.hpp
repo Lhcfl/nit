@@ -16,10 +16,12 @@ public:
     NitLogger logger;
     logger.log("========= Nit Help ==========");
     logger.log("Nit version", NitProjectConfig::VERSION);
-    logger.log("");
+    logger.newLine();
     logger.log("Commands:");
     logger.log("  init");
     logger.log("  commit [msg]");
+    logger.log("  add [file1] [other files...?]");
+    logger.log("  status");
   }
 };
 
