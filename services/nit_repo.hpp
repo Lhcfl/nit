@@ -71,6 +71,12 @@ inline NitRepo initialize() {
 
   return repo;
 }
+
+inline const NitCommitModel headCommit() {
+  auto repo = getRepo();
+  return NitCommitModel::loadFrom(repo.head);
+}
+
 } // namespace NitRepoService
 
 #endif

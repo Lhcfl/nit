@@ -1,6 +1,5 @@
 #include "commands/base.hpp"
 #include "lib/nit_common.hpp"
-#include "services/staged.hpp"
 #include "services/status.hpp"
 #include <string>
 
@@ -15,7 +14,7 @@ public:
   void exec() const {
     NitLogger logger;
     auto status = NitStatusService::getStatus();
-    auto allStaged = NitStagingService::listAll();
+    auto allStaged = NitStatusService::actuallyStagedFiles(status);
 
     if (allStaged.size() > 0) {
       logger.log("======= NIT STAGING AREA ========");

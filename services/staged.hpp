@@ -48,6 +48,11 @@ inline void stageAll(const std::string &directoryPath) {
   }
 }
 
+inline void cleanAllStaged() {
+  std::filesystem::remove_all(STAGE_PATH);
+  std::filesystem::create_directories(STAGE_PATH);
+}
+
 } // namespace NitStagingService
 
 #endif

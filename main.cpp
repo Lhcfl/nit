@@ -4,6 +4,7 @@
 
 int main(int argc, char **argv) {
   NitLogger logger;
+
   try {
     NitCommandParserService::createFrom(argc, argv)->exec();
   } catch (NitCommand::ExecError e) {

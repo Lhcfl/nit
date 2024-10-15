@@ -3,6 +3,8 @@
 #include "services/nit_checker.hpp"
 #include "services/nit_repo.hpp"
 #include "services/staged.hpp"
+#include <string>
+#include <vector>
 
 #ifndef __H_NIT_COMMIT_SERVICE
 #define __H_NIT_COMMIT_SERVICE
@@ -33,6 +35,10 @@ inline void logManyCommit(const NitCommitModel &commit) {
     hashNow = c.pre;
     logger.newLine();
   }
+}
+
+inline std::vector<std::string> listAllHash() {
+  return NitFs::listFiles(NitCommitModel::COMMIT_PATH_ABSOLUTE);
 }
 
 inline NitCommitModel makeCommit(const std::string &message) {

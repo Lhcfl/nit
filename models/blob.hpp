@@ -35,7 +35,7 @@ public:
     }
   }
 
-  static NitBlobModel loadFrom(const std::string &hash) {
+  static const NitBlobModel loadFrom(const std::string &hash) {
     return NitBlobModel(
         NitFs::readFromFile(NitFs::fileIn(BLOB_PATH_ABSOLUTE, hash)), hash);
   }

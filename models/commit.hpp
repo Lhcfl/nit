@@ -79,29 +79,35 @@ public:
         std::chrono::system_clock::now());
   }
 
-  static NitCommitModel loadFrom(const std::string &hash) {
+  static const NitCommitModel loadFrom(const std::string &hash) {
     // logger.debug("Loading commit", hash);
+    try {
+      std::string data =
+          NitFs::readFromFile(NitFs::fileIn(COMMIT_PATH_ABSOLUTE, hash));
+      auto checkHash = UsefulApi::hash(data);
 
-    std::string data =
-        NitFs::readFromFile(NitFs::fileIn(COMMIT_PATH_ABSOLUTE, hash));
-    auto checkHash = UsefulApi::hash(data);
+      // logger.debug(data);
 
-    // logger.debug(data);
+      if (hash != checkHash) {
+        throw NitError("Commit: Hash check failed!\n"
+                       "  provided hash: " +
+                       hash +
+                       "\n"
+                       "      data hash: " +
+                       checkHash);
+      }
 
-    if (hash != checkHash) {
-      throw NitError("Commit: Hash check failed!\n"
-                     "  provided hash: " +
-                     hash +
-                     "\n"
-                     "      data hash: " +
-                     checkHash);
+      NitCommitModel res;
+      res.hash = hash;
+      res.deserializeFrom(data);
+
+      return res;
+    } catch (NitFs::NitFsError e) {
+      if (e.getId() == NitError::IdentifiableId::FILE_NOT_EXISTED) {
+        throw NitError("No commit with that id exists: " + hash);
+      }
+      throw e;
     }
-
-    NitCommitModel res;
-    res.hash = hash;
-    res.deserializeFrom(data);
-
-    return res;
   }
 
   static NitCommitModel createAndSaveFrom(const std::string &pre,

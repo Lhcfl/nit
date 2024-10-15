@@ -6,9 +6,21 @@
 
 class NitError : public std::runtime_error {
 public:
+  enum class IdentifiableId {
+    FILE_NOT_EXISTED = 2,
+  };
+
+private:
+  IdentifiableId id;
+
+public:
   NitError(const std::string &message = "UnknownError")
       : std::runtime_error(message) {}
+  NitError(IdentifiableId id, const std::string &message = "UnknownError")
+      : std::runtime_error(message), id(id) {}
   ~NitError() throw() {}
+
+  IdentifiableId getId() { return id; }
 };
 
 class NitNotImplementedError : public std::runtime_error {

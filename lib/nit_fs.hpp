@@ -13,6 +13,8 @@ namespace NitFs {
 class NitFsError : public NitError {
 public:
   NitFsError(const std::string &message) : NitError(message) {}
+  NitFsError(IdentifiableId id, const std::string &message)
+      : NitError(id, message) {}
 };
 
 using UsefulApi::cwd;
@@ -71,6 +73,10 @@ inline void writeToFile(const std::string &filePath, const std::string &str) {
 }
 
 inline std::string readFromFile(const std::string &filePath) {
+  if (!existsFile(filePath)) {
+    throw NitFsError(NitFsError::IdentifiableId::FILE_NOT_EXISTED,
+                     "No such file: " + filePath);
+  }
   std::ifstream file(filePath, std::ios_base::in | std::ios_base::binary);
   bool is_open = file.is_open();
   if (!is_open) {
