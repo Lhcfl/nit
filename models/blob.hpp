@@ -6,6 +6,12 @@
 #define __H_NIT_MODEL_BLOB
 
 class NitBlobModel {
+  NitBlobModel &save() {
+    logger.debug("Saving blob", hash, " data to", UsefulApi::cwd());
+    NitFs::writeToFile(NitFs::fileIn(BLOB_PATH_ABSOLUTE, hash), data);
+    return *this;
+  }
+
 public:
   static constexpr std::string BLOB_PATH = ".nit/blobs";
   static const std::string BLOB_PATH_ABSOLUTE;
@@ -34,9 +40,11 @@ public:
         NitFs::readFromFile(NitFs::fileIn(BLOB_PATH_ABSOLUTE, hash)), hash);
   }
 
-  void save() {
-    logger.debug("Saving blob", hash, " data to", UsefulApi::cwd());
-    NitFs::writeToFile(NitFs::fileIn(BLOB_PATH_ABSOLUTE, hash), data);
+  /**
+   * USE THIS, DONT CONSTRUCT A NITBLOBMODEL
+   */
+  static const NitBlobModel createAndSaveFrom(const std::string filePath) {
+    return NitBlobModel(NitFs::readFromFile(filePath)).save();
   }
 };
 

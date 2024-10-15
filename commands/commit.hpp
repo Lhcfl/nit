@@ -1,6 +1,6 @@
 #include "commands/base.hpp"
 #include "lib/nit_common.hpp"
-#include "models/commit.hpp"
+#include "services/commit.hpp"
 #include <string>
 
 #ifndef __H_NIT_COMMAND_COMMIT
@@ -16,7 +16,8 @@ public:
       throw ExecError("You must provide a commit message");
     }
 
-    throw ExecError("Not implemented: commit with message \"" + args[0] + "\"");
+    auto commit = NitCommitService::makeCommit(args[0]);
+    NitCommitService::logOneCommit(commit);
   }
 };
 

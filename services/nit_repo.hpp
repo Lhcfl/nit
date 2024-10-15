@@ -19,6 +19,8 @@ namespace NitRepoService {
 struct NitRepo {
   /** Head commit hash */
   std::string head;
+
+  inline void save();
 };
 
 inline void to_json(nlohmann::json &j, const NitRepo &p) {
@@ -41,10 +43,12 @@ inline void writeRepoData(const NitRepo &repo) {
   NitFs::writeToFile(NitFs::fileIn(".nit", "repo.json"), j.dump());
 }
 
+inline void NitRepo::save() { writeRepoData(*this); }
+
 inline NitCommitModel initialCommit() {
-  NitCommitModel commit("initial commit");
-  commit.save();
-  return commit;
+  return NitCommitModel::createAndSaveFrom(NitCommitModel::NULL_COMMIT,
+                                           "initial commit",
+                                           NitCommitModel::EMPTY_COMMIT);
 }
 
 inline NitRepo initialize() {
