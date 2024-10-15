@@ -13,10 +13,17 @@ public:
 
   void exec() const {
     if (args.size() == 0) {
-      throw ExecError("You must provide a commit message");
+      throw ExecError("Please enter a commit message.");
+    }
+    bool allow_empty = false;
+
+    for (const auto &arg : args) {
+      if (arg == "--allow-empty") {
+        allow_empty = true;
+      }
     }
 
-    auto commit = NitCommitService::makeCommit(args[0]);
+    auto commit = NitCommitService::makeCommit(args[0], allow_empty);
     NitCommitService::logOneCommit(commit);
   }
 };

@@ -3,6 +3,7 @@
 #include "services/nit_checker.hpp"
 #include "services/nit_repo.hpp"
 #include "services/staged.hpp"
+#include "services/status.hpp"
 #include <string>
 #include <vector>
 
@@ -41,9 +42,17 @@ inline std::vector<std::string> listAllHash() {
   return NitFs::listFiles(NitCommitModel::COMMIT_PATH_ABSOLUTE);
 }
 
-inline NitCommitModel makeCommit(const std::string &message) {
+inline NitCommitModel makeCommit(const std::string &message,
+                                 bool allow_empty = false) {
   NitCheckerService::ensureHasNitRepo();
   auto repo = NitRepoService::getRepo();
+
+  if (!allow_empty) {
+    if (NitStatusService::actuallyChangedFiles(NitStatusService::getStatus())
+            .empty()) {
+      throw NitCommand::ExecError("No changes added to the commit.");
+    }
+  }
 
   auto res = NitCommitModel::createAndSaveFrom(repo.head, message, []() {
     NitCommitModel::Tree files;

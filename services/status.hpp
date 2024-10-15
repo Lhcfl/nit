@@ -140,6 +140,16 @@ actuallyStagedFiles(const NitStatusModel &status) {
   }
   return res;
 }
+inline std::vector<std::string>
+actuallyChangedFiles(const NitStatusModel &status) {
+  std::vector<std::string> res;
+  for (auto &s : status.stagingAreaStatus) {
+    if (s.status != FileStatus::UNCHANGED) {
+      res.push_back(s.filename);
+    }
+  }
+  return res;
+}
 
 } // namespace NitStatusService
 
