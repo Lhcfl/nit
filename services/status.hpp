@@ -81,7 +81,7 @@ inline FileStatus compareFile(const std::string &sourceFile,
   }
 }
 
-inline NitStatusModel getStatus() {
+inline NitStatusModel getStatus(const NitCommitModel &headCommit) {
   NitCheckerService::ensureHasNitRepo();
 
   NitStatusModel res;
@@ -94,8 +94,6 @@ inline NitStatusModel getStatus() {
     res.workingDirStatus.emplace_back(
         std::move(FileStatusNamePair(filename, status)));
   }
-
-  auto headCommit = NitRepoService::headCommit();
 
   for (auto &filename : NitStagingService::listAll()) {
     auto status = compareFile(
@@ -128,6 +126,10 @@ inline NitStatusModel getStatus() {
   }
 
   return res;
+}
+
+inline NitStatusModel getStatus() {
+  return getStatus(NitRepoService::headCommit());
 }
 
 inline std::vector<std::string>

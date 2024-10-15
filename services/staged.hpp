@@ -66,6 +66,11 @@ inline void stageAll(const std::string &directoryPath) {
                        NitFs::readFromFile(filename));
   }
 }
+
+inline void rebuildStaged() {
+  cleanAllStaged();
+  stageAll(NitFs::cwd());
+}
 } // namespace NitStagingService
 
 #endif

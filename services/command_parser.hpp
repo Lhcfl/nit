@@ -1,5 +1,6 @@
 #include "commands/add.hpp"
 #include "commands/base.hpp"
+#include "commands/checkout.hpp"
 #include "commands/commit.hpp"
 #include "commands/help.hpp"
 #include "commands/init.hpp"
@@ -36,6 +37,8 @@ inline Command createFrom(int argc, char **argv) {
     return Command(new NitCommand::Commit(std::move(commandArgs)));
   } else if (commandName == "add") {
     return Command(new NitCommand::Add(std::move(commandArgs)));
+  } else if (commandName == "checkout") {
+    return Command(new NitCommand::Checkout(std::move(commandArgs)));
   } else if (commandName == "init") {
     return Command(new NitCommand::Init());
   } else if (commandName == "log") {
