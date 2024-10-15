@@ -22,7 +22,7 @@ public:
     logger.success("Successfully Initialized .nit in", UsefulApi::cwd());
     logger.info("initial commit created");
     logger.newLine();
-    NitCommitService::logCommit(NitCommitModel::loadFrom(repo.head));
+    NitCommitService::logOneCommit(NitCommitModel::loadFrom(repo.head));
   }
 };
 

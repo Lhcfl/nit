@@ -1,4 +1,3 @@
-#include "apis/apis.h"
 #include "commands/base.hpp"
 #include "lib/extern/json.hpp"
 #include "lib/nit_common.hpp"
@@ -8,7 +7,6 @@
 #include "services/staged.hpp"
 #include <filesystem>
 #include <string>
-#include <vector>
 
 #ifndef __H_NIT_REPO_SERVICE
 #define __H_NIT_REPO_SERVICE

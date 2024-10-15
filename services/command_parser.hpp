@@ -3,6 +3,7 @@
 #include "commands/commit.hpp"
 #include "commands/help.hpp"
 #include "commands/init.hpp"
+#include "commands/log.hpp"
 #include "commands/status.hpp"
 
 #include "lib/nit_common.hpp"
@@ -37,6 +38,8 @@ inline Command createFrom(int argc, char **argv) {
     return Command(new NitCommand::Add(std::move(commandArgs)));
   } else if (commandName == "init") {
     return Command(new NitCommand::Init());
+  } else if (commandName == "log") {
+    return Command(new NitCommand::Log());
   } else if (commandName == "status") {
     return Command(new NitCommand::Status());
   } else if (commandName == "help" || commandName == "h") {

@@ -1,6 +1,8 @@
 #include "apis/apis.h"
 #include "lib/extern/json.hpp"
 #include "lib/nit_common.hpp"
+#include <chrono>
+#include <cstdint>
 #include <map>
 #include <string>
 
@@ -15,6 +17,10 @@ class NitCommitModel {
     pre = parsed["pre"].template get<std::string>();
     message = parsed["message"].template get<std::string>();
     files = parsed["files"].template get<Tree>();
+
+    uint64_t timestamp = parsed["createdAt"].template get<uint64_t>();
+    createdAt = std::chrono::time_point_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::from_time_t(timestamp / 1000));
   };
 
   std::string serialize() {
@@ -24,6 +30,7 @@ class NitCommitModel {
     j["pre"] = pre;
     j["message"] = message;
     j["files"] = files;
+    j["createdAt"] = createdAt.time_since_epoch().count();
 
     return j.dump();
   }
@@ -36,16 +43,23 @@ public:
 
   using Tree = std::map<std::string, std::string>;
 
+  using MsTime = std::chrono::time_point<std::chrono::system_clock,
+                                         std::chrono::milliseconds>;
+
   std::string hash;
   std::string next;
   std::string pre;
   std::string message;
+  MsTime createdAt;
 
   /** files[filename] = blobhash */
   Tree files;
 
   NitCommitModel(const std::string &msg = "")
-      : next(NULL_COMMIT), pre(NULL_COMMIT), message(msg) {}
+      : next(NULL_COMMIT), pre(NULL_COMMIT), message(msg) {
+    createdAt = std::chrono::time_point_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now());
+  }
 
   static NitCommitModel loadFrom(const std::string &hash) {
     // logger.debug("Loading commit", hash);
