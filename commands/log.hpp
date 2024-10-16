@@ -4,6 +4,7 @@
 #include "services/commit.hpp"
 #include "services/nit_checker.hpp"
 #include "services/nit_repo.hpp"
+#include <array>
 #include <string>
 
 #ifndef __H_NIT_COMMAND_LOG
@@ -12,7 +13,9 @@
 namespace NitCommand {
 class Log : public Base {
 public:
-  Log() : Base() {}
+  Log(CommandArgs &&_) : Base() {}
+
+  static constexpr std::array<std::string, 1> ALIASES{"log"};
 
   void exec() const override {
     NitCheckerService::ensureHasNitRepo();

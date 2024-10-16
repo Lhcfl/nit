@@ -1,6 +1,7 @@
 #include "commands/base.hpp"
 #include "lib/nit_common.hpp"
 #include "services/status.hpp"
+#include <array>
 #include <string>
 
 #ifndef __H_NIT_COMMAND_STATUS
@@ -9,7 +10,9 @@
 namespace NitCommand {
 class Status : public Base {
 public:
-  Status() : Base() {}
+  Status(CommandArgs &&_) : Base() {}
+
+  static constexpr std::array<std::string, 1> ALIASES{"status"};
 
   void exec() const override {
     NitLogger logger;

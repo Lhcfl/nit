@@ -1,6 +1,7 @@
 #include "commands/base.hpp"
 #include "lib/nit_common.hpp"
 #include "services/commit.hpp"
+#include <array>
 #include <string>
 
 #ifndef __H_NIT_COMMAND_COMMIT
@@ -10,6 +11,8 @@ namespace NitCommand {
 class Commit : public Base {
 public:
   Commit(CommandArgs &&args) : Base(std::move(args)) {}
+
+  static constexpr std::array<std::string, 1> ALIASES{"commit"};
 
   void exec() const override {
     if (args.size() == 0) {

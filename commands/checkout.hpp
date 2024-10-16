@@ -2,6 +2,7 @@
 #include "lib/nit_common.hpp"
 #include "services/checkout.hpp"
 #include "services/commit.hpp"
+#include <array>
 #include <string>
 
 #ifndef __H_NIT_COMMAND_CHECKOUT
@@ -11,6 +12,8 @@ namespace NitCommand {
 class Checkout : public Base {
 public:
   Checkout(CommandArgs &&args) : Base(std::move(args)) {}
+
+  static constexpr std::array<std::string, 1> ALIASES{"checkout"};
 
   void exec() const override {
     if (args.size() == 0) {

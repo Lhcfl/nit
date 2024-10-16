@@ -5,6 +5,7 @@
 #include "services/commit.hpp"
 #include "services/nit_checker.hpp"
 #include "services/nit_repo.hpp"
+#include <array>
 #include <string>
 
 #ifndef __H_NIT_COMMAND_INIT
@@ -13,7 +14,9 @@
 namespace NitCommand {
 class Init : public Base {
 public:
-  Init() : Base() {}
+  Init(CommandArgs &&_) : Base() {}
+
+  static constexpr std::array<std::string, 1> ALIASES{"init"};
 
   void exec() const override {
     NitLogger logger("Nit");

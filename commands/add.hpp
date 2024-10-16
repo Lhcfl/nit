@@ -1,6 +1,7 @@
 #include "commands/base.hpp"
 #include "lib/nit_common.hpp"
 #include "services/staged.hpp"
+#include <array>
 #include <string>
 
 #ifndef __H_NIT_COMMAND_ADD
@@ -11,7 +12,9 @@ class Add : public Base {
 public:
   Add(CommandArgs &&args) : Base(std::move(args)) {}
 
-  void exec() const {
+  static constexpr std::array<std::string, 1> ALIASES{"add"};
+
+  void exec() const override {
     NitLogger logger("nit add");
 
     if (args.size() == 0) {

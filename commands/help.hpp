@@ -2,6 +2,7 @@
 #include "config/config.h"
 #include "lib/nit_common.hpp"
 #include "models/commit.hpp"
+#include <array>
 #include <string>
 
 #ifndef __H_NIT_COMMAND_HELP
@@ -10,7 +11,9 @@
 namespace NitCommand {
 class Help : public Base {
 public:
-  Help() : Base() {}
+  Help(CommandArgs &&_) : Base() {}
+
+  static constexpr std::array<std::string, 2> ALIASES{"help", "h"};
 
   void exec() const override {
     NitLogger logger;
