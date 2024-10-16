@@ -12,7 +12,7 @@ class Help : public Base {
 public:
   Help() : Base() {}
 
-  void exec() const {
+  void exec() const override {
     NitLogger logger;
     logger.log("========= Nit Help ==========");
     logger.log("Nit version", NitProjectConfig::VERSION);
@@ -22,6 +22,9 @@ public:
     logger.log("  commit [msg]");
     logger.log("  add [file1] [other files...?]");
     logger.log("  status");
+    logger.log("  checkout [hash]");
+    logger.log("  log");
+    logger.log("  help");
   }
 };
 

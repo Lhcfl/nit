@@ -14,7 +14,7 @@ class Log : public Base {
 public:
   Log() : Base() {}
 
-  void exec() const {
+  void exec() const override {
     NitCheckerService::ensureHasNitRepo();
 
     NitLogger logger("Nit");

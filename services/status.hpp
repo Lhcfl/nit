@@ -110,7 +110,6 @@ inline NitStatusModel getStatus(const NitCommitModel &headCommit) {
 
     res.stagingAreaStatus.emplace_back(
         std::move(FileStatusNamePair(filename, statusCommit)));
-    // TODO: handle commit
   }
 
   for (auto &p : headCommit.files) {

@@ -12,7 +12,7 @@ class Checkout : public Base {
 public:
   Checkout(CommandArgs &&args) : Base(std::move(args)) {}
 
-  void exec() const {
+  void exec() const override {
     if (args.size() == 0) {
       throw ExecError("You should enter a commit hash.");
     }

@@ -11,7 +11,7 @@ class Commit : public Base {
 public:
   Commit(CommandArgs &&args) : Base(std::move(args)) {}
 
-  void exec() const {
+  void exec() const override {
     if (args.size() == 0) {
       throw ExecError("Please enter a commit message.");
     }

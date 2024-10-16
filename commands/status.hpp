@@ -11,7 +11,7 @@ class Status : public Base {
 public:
   Status() : Base() {}
 
-  void exec() const {
+  void exec() const override {
     NitLogger logger;
     auto status = NitStatusService::getStatus();
     auto allStaged = NitStatusService::actuallyStagedFiles(status);

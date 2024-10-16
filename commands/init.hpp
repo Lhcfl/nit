@@ -15,7 +15,7 @@ class Init : public Base {
 public:
   Init() : Base() {}
 
-  void exec() const {
+  void exec() const override {
     NitLogger logger("Nit");
     logger.info("Initializing a new nit repo at", UsefulApi::cwd());
     auto repo = NitRepoService::initialize();

@@ -22,6 +22,7 @@ public:
   Base() : args(){};
   Base(CommandArgs &&args) : args(args){};
   virtual void exec() const = 0;
+  virtual ~Base(){};
 };
 } // namespace NitCommand
 
