@@ -1,4 +1,5 @@
 #include "lib/nit_common.hpp"
+#include <map>
 #include <string>
 #include <vector>
 
@@ -35,6 +36,9 @@ public:
    */
   std::vector<FileStatusNamePair> stagingAreaStatus;
 
+  std::map<std::string, FileStatus> workingDirStatMap;
+  std::map<std::string, FileStatus> stagingAreaStatMap;
+
   std::string calculateStatus() {
     NitLogger changesToBeCommited("", "", "");
     NitLogger changesNotStaged("", "", "");
@@ -44,6 +48,7 @@ public:
     const std::string TAB = "\t";
 
     for (const auto &fp : workingDirStatus) {
+      workingDirStatMap[fp.filename] = fp.status;
       switch (fp.status) {
       case FileStatus::UNTRACKED:
         untracked.log(TAB, NitColor::green("untracked: " + fp.filename));
@@ -62,6 +67,7 @@ public:
     }
 
     for (const auto &fp : stagingAreaStatus) {
+      stagingAreaStatMap[fp.filename] = fp.status;
       switch (fp.status) {
       case FileStatus::UNTRACKED:
         throw NitError("Unexpected untracked File in staging area");
