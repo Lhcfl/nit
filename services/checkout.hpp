@@ -90,7 +90,12 @@ inline const NitCommitModel checkout(const NitCommitModel &to,
     for (auto file : head.files) {
       const auto filename = file.first;
       logger.debug("rm", filename);
-      std::filesystem::remove(filename);
+
+      if (shouldNotAdd[filename]) {
+        //
+      } else {
+        NitStagingService::removeOne(filename);
+      }
     }
 
     for (auto file : to.files) {
