@@ -5,6 +5,7 @@
 #include "commands/help.hpp"
 #include "commands/init.hpp"
 #include "commands/log.hpp"
+#include "commands/rm.hpp"
 #include "commands/status.hpp"
 
 #include "lib/nit_common.hpp"
@@ -53,6 +54,7 @@ inline Command createFrom(int argc, char **argv) {
   __REGISTER_COMMAND(Commit);
   __REGISTER_COMMAND(Checkout);
   __REGISTER_COMMAND(Add);
+  __REGISTER_COMMAND(Rm);
 
   if (CommandRegistry.count(commandName) > 0) {
     return CommandRegistry[commandName]();

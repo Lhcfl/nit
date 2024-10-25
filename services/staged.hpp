@@ -31,6 +31,20 @@ inline bool hasStaged(const std::string &filename) {
   return NitFs::existsFile(NitFs::fileIn(STAGE_PATH_ABSOLUTE, filename));
 }
 
+inline void removeOne(const std::string &filePath) {
+  NitCheckerService::ensureHasNitRepo();
+
+  if (!NitCheckerService::hasFile(filePath)) {
+    if (hasStaged(filePath)) {
+      std::filesystem::remove(NitFs::fileIn(STAGE_PATH_ABSOLUTE, filePath));
+      std::filesystem::remove(NitFs::fileIn(NitFs::cwd(), filePath));
+      return;
+    } else {
+      throw NitError("File not exist: " + filePath);
+    }
+  }
+}
+
 inline void stageOne(const std::string &filePath) {
   logger.disable();
   logger.debug("Staging", filePath, "to", UsefulApi::cwd());

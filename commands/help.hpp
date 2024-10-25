@@ -24,6 +24,7 @@ public:
     logger.log("  init");
     logger.log("  commit [msg]");
     logger.log("  add [file1] [other files...?]");
+    logger.log("  rm [file1] [other files...?]");
     logger.log("  status");
     logger.log("  checkout [hash]");
     logger.log("  log");
