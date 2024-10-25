@@ -18,6 +18,8 @@ inline const NitCommitModel checkout(const NitCommitModel &to,
                                      bool hard = false) {
   NitCheckerService::ensureHasNitRepo();
 
+  NitLogger logger("checkout");
+
   auto repo = NitRepoService::getRepo();
   const NitCommitModel head = NitRepoService::headCommit();
   auto status = NitStatusService::getStatus();
@@ -47,6 +49,8 @@ inline const NitCommitModel checkout(const NitCommitModel &to,
       }
     }
 
+    logger.debug("untracked and new files ok");
+
     std::map<std::string, bool> shouldNotAdd;
     auto checkUnchanged = [&](const std::string &filename) {
       if (status.stagingAreaStatMap[filename] !=
@@ -59,9 +63,13 @@ inline const NitCommitModel checkout(const NitCommitModel &to,
       }
     };
 
+    // check
     for (auto file : head.files) {
       const auto filename = file.first;
       const auto blob = NitBlobModel::loadFrom(file.second);
+
+      logger.debug("handle", filename);
+
       // both have
       if (to.files.contains(filename)) {
         const auto blobTo = NitBlobModel::loadFrom(to.files.at(filename));
@@ -75,15 +83,22 @@ inline const NitCommitModel checkout(const NitCommitModel &to,
       } else {
         checkUnchanged(filename);
       }
+    }
 
-      std::filesystem::remove(NitFs::fileIn(NitFs::cwd(), filename));
+    // truly run
+
+    for (auto file : head.files) {
+      const auto filename = file.first;
+      logger.debug("rm", filename);
+      std::filesystem::remove(filename);
     }
 
     for (auto file : to.files) {
       const auto filename = file.first;
       const auto blob = NitBlobModel::loadFrom(file.second);
 
-      NitFs::writeToFile(filename, blob.data);
+      logger.debug("write", filename);
+      NitFs::writeToFile(NitFs::fileIn(NitFs::cwd(), filename), blob.data);
 
       if (!shouldNotAdd[filename]) {
         NitStagingService::stageOne(filename);
