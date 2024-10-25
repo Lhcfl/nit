@@ -13,7 +13,7 @@ enum class NIT_LOG_LEVELS {
   ERROR = 3,
   DISABLED = 99999,
 };
-static constexpr NIT_LOG_LEVELS NIT_LOG_LEVEL = NIT_LOG_LEVELS::DEBUG;
+static constexpr NIT_LOG_LEVELS NIT_LOG_LEVEL = NIT_LOG_LEVELS::INFO;
 
 } // namespace NitProjectConfig
 #endif

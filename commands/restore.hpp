@@ -23,11 +23,11 @@ public:
 
     logger.debug("args is", args);
 
-    if (args | Utils::Some<std::string>([](const std::string &fn) {
-          return fn == "*" || fn == ".";
-        })) {
-      return NitStagingService::stageAll(".");
-    }
+    // if (args | Utils::Some<std::string>([](const std::string &fn) {
+    //       return fn == "*" || fn == ".";
+    //     })) {
+    //   return NitStagingService::stageAll(".");
+    // }
 
     for (const auto &fileName : args) {
       try {

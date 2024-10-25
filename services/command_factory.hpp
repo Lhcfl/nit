@@ -41,9 +41,9 @@ inline void registerCommand(const Alias &command_names, CommandMaker &&maker) {
 inline Command createFrom(int argc, char **argv) {
   NitLogger logger("Command");
 
-  std::string commandName = argc == 1 ? "help" : argv[1];
+  std::string commandName = argc <= 1 ? "help" : argv[1];
   std::vector<std::string> commandArgs;
-  for (int i = 2; i != argc; i++) {
+  for (int i = 2; i < argc; i++) {
     commandArgs.push_back(argv[i]);
   };
 

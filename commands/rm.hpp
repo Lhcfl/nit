@@ -18,7 +18,7 @@ public:
     NitLogger logger("nit rm");
 
     if (args.size() == 0) {
-      throw ExecError("You must at least add remove file");
+      throw ExecError("You must at least remove one file");
     }
 
     logger.debug("args is", args);
